@@ -13,6 +13,7 @@ public class Join extends BaseManager{
 
     public static void join(boolean invitation){
         ServerManager.guestServer();
+        String IP;
 
         if(invitation) {//
 
@@ -28,9 +29,13 @@ public class Join extends BaseManager{
             }
 
             System.out.println("Connected");
-            HandlerHost.setSuccess(false);
+            HandlerGuest.setSuccess(false);
+            IP = HandlerGuest.getPort();
+            IP = IP + ":8800";
+            ClientManager.setIp(IP);
+
         }else {
-            String IP = Screen.enterIP(false);
+            IP = Screen.enterIP(false);
             IP = IP + ":8800";
 
             while (InputValidator.validateIP(IP)) {

@@ -47,7 +47,7 @@ public class NewGame{
             HandlerHost.setSuccess(false);
         }else {//va a pegarle al guest
             String IP = Screen.enterIP(false);
-            IP = IP + ":8800";
+            IP = IP + ":8500";
 
             while (InputValidator.validateIP(IP)){
                 IP = Screen.enterIP(true);

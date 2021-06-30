@@ -15,7 +15,7 @@ public class HandlerGuest implements HttpHandler {
 
     private static boolean success = false;
     private static HostSend message = new HostSend(" ", " ", false,new int[3]);
-
+    private static String port = " ";
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
@@ -26,6 +26,8 @@ public class HandlerGuest implements HttpHandler {
         message = Json.fromJsonInput(HostSend.class, exchange.getRequestBody());
 
         setMessage(message);
+
+        setPort(exchange.getRemoteAddress().getHostString());
 
         //setMessage(Json.fromJson(HostSend.class, exchange.getRequestBody().toString()));
 
@@ -40,6 +42,14 @@ public class HandlerGuest implements HttpHandler {
         }
 
         setSuccess(true);
+    }
+
+    public static String getPort() {
+        return port;
+    }
+
+    public static void setPort(String port) {
+        HandlerGuest.port = port;
     }
 
     public static HostSend getMessage() {
