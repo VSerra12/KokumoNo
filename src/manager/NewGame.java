@@ -65,7 +65,7 @@ public class NewGame{
                 e.printStackTrace();
             }
         }
-
+        play();
     }
 
     public void play(){

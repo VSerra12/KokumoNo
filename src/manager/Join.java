@@ -27,9 +27,9 @@ public class Join extends BaseManager{
                     e.printStackTrace();
                 }
             }
+            HandlerGuest.setSuccess(false);
 
             System.out.println("Connected");
-            HandlerGuest.setSuccess(false);
             IP = HandlerGuest.getPort();
             IP = IP + ":8800";
             ClientManager.setIp(IP);

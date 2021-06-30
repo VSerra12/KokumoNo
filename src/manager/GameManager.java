@@ -46,7 +46,6 @@ public class GameManager extends BaseManager {
                     NewGame newGame = NewGame.getInstance();
                     invitation = invitation();
                     newGame.newGame(invitation);//crea el server y espera a que el cliente le pegue
-                    newGame.play();
                     success = false;//coloca las posiciones iniciales e inicia la ronda de turnos
                 }
                 case 'J' -> {
