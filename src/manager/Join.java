@@ -102,16 +102,15 @@ public class Join extends BaseManager{
                 if (l > 0){lives ++;}
             }
             continueGame = lives > 0;
-
-            String board = message.getBoard();
-            String fails = message.getFails();
-
-            System.out.println(board + "\n" + fails);
             if (lives > 0) {
 
-                ClientController.sendMove(life, message.isCommanderAlive());
-            }
+                String board = message.getBoard();
+                String fails = message.getFails();
 
+
+                ClientController.sendMove(life, message.isCommanderAlive());
+                System.out.println(board + "\n" + fails);
+            }
 
             ClientManager.get("/join", ServerResponse.class);
 
@@ -124,9 +123,9 @@ public class Join extends BaseManager{
                 e.printStackTrace();
             }
         }
+        HandlerGuest.setSuccess(false);
         try {
 
-            HandlerGuest.setSuccess(false);
 
             HostSend message = HandlerGuest.getMessage();
 

@@ -152,6 +152,7 @@ public class NewGame{
             Screen.showBoard(graphic1.convertToString());
 
             alive1 = GameValidator.continueGame(player1.getSquad());
+            alive2 = GameValidator.continueGame(player2.getSquad());
 
             continueGame = alive1 > 0 && alive2 > 0;
 
@@ -168,8 +169,11 @@ public class NewGame{
             send.setCommanderAlive(false);
             send.setLife(life);
         }else {
+
             send.setCommanderAlive(true);
             send.setLife(life);
+            send.setBoard(graphic2.convertToString());
+            ClientManager.post("/join", send,ServerResponse.class);
         }
 
         send.setBoard(graphic2.convertToString());
