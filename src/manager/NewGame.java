@@ -29,7 +29,7 @@ public class NewGame{
 
         ServerManager.hostServer();
 
-        if(invitation) {//van a pegarle al host
+        if(invitation) {//van a pegarle al host*/
 
             Screen.waitingForPlayer();
 
@@ -65,6 +65,8 @@ public class NewGame{
                 e.printStackTrace();
             }
         }
+
+
         play();
     }
 
@@ -76,9 +78,7 @@ public class NewGame{
         life[2] = player2.getSquad().get(2).getLife();
 
         HostSend send = new HostSend(graphic2.convertToString(), " ", true, life);
-
         ClientManager.post("/join", send, ServerResponse.class);
-
         Screen.showBoard(graphic1.convertToString() + "\n");
         HostController.initialPosition();
 

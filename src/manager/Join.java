@@ -3,7 +3,6 @@ package manager;
 import server.ServerManager;
 import server.client.ClientManager;
 import server.handlers.HandlerGuest;
-import server.handlers.HandlerHost;
 import server.util.HostSend;
 import server.util.ServerResponse;
 import util.Screen;
@@ -15,7 +14,7 @@ public class Join extends BaseManager{
         ServerManager.guestServer();
         String IP;
 
-        if(invitation) {//
+        if(invitation) {
 
             Screen.waitingForPlayer();
 
@@ -27,12 +26,12 @@ public class Join extends BaseManager{
                     e.printStackTrace();
                 }
             }
-            HandlerGuest.setSuccess(false);
 
             System.out.println("Connected");
             IP = HandlerGuest.getPort();
             IP = IP + ":8800";
             ClientManager.setIp(IP);
+            HandlerGuest.setSuccess(false);
 
         }else {
             IP = Screen.enterIP(false);
@@ -40,6 +39,7 @@ public class Join extends BaseManager{
 
             while (InputValidator.validateIP(IP)) {
                 IP = Screen.enterIP(true);
+                IP = IP + ":8800";
             }
 
             try {
