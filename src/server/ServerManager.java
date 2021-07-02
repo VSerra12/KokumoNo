@@ -10,7 +10,7 @@ import java.net.InetSocketAddress;
 
 public class ServerManager {
 
-    private final static int HOST = 8800;
+    private final static int HOST = 8000;
     private final static int GUEST = 8500;
 
     private static HttpServer server;

@@ -26,21 +26,25 @@ public class Join extends BaseManager{
                     e.printStackTrace();
                 }
             }
-
-            System.out.println("Connected");
-            IP = HandlerGuest.getPort();
-            IP = IP + ":8800";
-            ClientManager.setIp(IP);
             HandlerGuest.setSuccess(false);
 
+            IP = HandlerGuest.getPort();
+            IP = "http://" + IP + ":8000";
+            ClientManager.setIp(IP);
+
+            ClientManager.get("/join", ServerResponse.class);
+
+            System.out.println("Connected");
         }else {
             IP = Screen.enterIP(false);
-            IP = IP + ":8800";
+            IP = IP + ":8000";
 
             while (InputValidator.validateIP(IP)) {
                 IP = Screen.enterIP(true);
-                IP = IP + ":8800";
+                IP = IP + ":8000";
             }
+
+            IP = "http://" + IP;
 
             try {
                 ClientManager.setIp(IP);
@@ -50,6 +54,15 @@ public class Join extends BaseManager{
                 Screen.statusConnection(success);
                 if (!success) {
                     GameManager.start();
+                }
+
+                while (!HandlerGuest.isSuccess()) {
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             } catch (Exception e) {

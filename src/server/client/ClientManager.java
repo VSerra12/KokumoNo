@@ -28,6 +28,8 @@ public class ClientManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        setIp(host);
         return response;
     }
 
@@ -35,11 +37,11 @@ public class ClientManager {
 
         HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
         ServerResponse response = new ServerResponse(1, null, "");
-        String actualHost = host + endPoint;
+        String actual = getHost() + endPoint;
 
         try{
             HttpContent content = ByteArrayContent.fromString(null, Json.toJson(data));
-            HttpRequest httpRequest = requestFactory.buildPostRequest(new GenericUrl(actualHost), content);
+            HttpRequest httpRequest = requestFactory.buildPostRequest(new GenericUrl(actual), content);
             httpRequest.getHeaders().setContentType("application/json");
 
             HttpResponse httpResponse = httpRequest.execute();
@@ -55,9 +57,10 @@ public class ClientManager {
     }
 
     public static void setIp(String ip) {
-        host = "http://" + ip;
+        host = ip;
     }
 
-
-
+    public static String getHost() {
+        return host;
+    }
 }

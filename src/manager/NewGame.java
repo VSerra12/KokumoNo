@@ -6,6 +6,7 @@ import entity.Player;
 import factory.ConcreteFactory;
 import server.ServerManager;
 import server.client.ClientManager;
+import server.handlers.HandlerGuest;
 import server.handlers.HandlerHost;
 import server.util.HostSend;
 import server.util.ServerResponse;
@@ -28,6 +29,7 @@ public class NewGame{
     public void newGame(boolean invitation) {
 
         ServerManager.hostServer();
+        String IP;
 
         if(invitation) {//van a pegarle al host*/
 
@@ -41,17 +43,26 @@ public class NewGame{
                     e.printStackTrace();
                 }
             }
+            HandlerHost.setSuccess(false);
+
+            IP = HandlerHost.getPort();
+            IP = "http://" + IP + ":8500";
+            ClientManager.setIp(IP);
+
+            ClientManager.get("/join", ServerResponse.class);
 
             System.out.println("Connected");
 
-            HandlerHost.setSuccess(false);
         }else {//va a pegarle al guest
-            String IP = Screen.enterIP(false);
+            IP = Screen.enterIP(false);
             IP = IP + ":8500";
 
             while (InputValidator.validateIP(IP)){
                 IP = Screen.enterIP(true);
+                IP = IP + ":8500";
             }
+
+            IP = "http://" + IP;
 
             try {
                 ClientManager.setIp(IP);
@@ -60,6 +71,16 @@ public class NewGame{
                 boolean success = response.getCode() == 200;
                 Screen.statusConnection(success);
                 if(!success){GameManager.start();}
+
+                while (!HandlerHost.isSuccess()) {
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                HandlerHost.setSuccess(false);
 
             } catch (Exception e) {
                 e.printStackTrace();
