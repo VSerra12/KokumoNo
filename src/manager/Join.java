@@ -108,8 +108,8 @@ public class Join extends BaseManager{
                 String fails = message.getFails();
 
 
-                ClientController.sendMove(life, message.isCommanderAlive());
                 System.out.println(board + "\n" + fails);
+                ClientController.sendMove(life, message.isCommanderAlive());
             }
 
             ClientManager.get("/join", ServerResponse.class);
