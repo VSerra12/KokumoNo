@@ -1,5 +1,6 @@
 package validator;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,4 +43,23 @@ public class InputValidator {
 
         return !matcher.matches();
     }
+
+    public static boolean attackInThisTurn(String target, ArrayList<String> attacks){
+
+        boolean success = attacks.contains(target);
+
+        if (!success){
+            attacks.add(target);
+        }
+
+        return !success;
+    }
+
+    public static boolean goodMove(String fail){
+
+        return !fail.equals("You already have a ninja in this position.") && !fail.equals("NO")
+                && !fail.equals("You already attacked this locker this turn") && !fail.equals("Can only move one box away")
+                && !fail.equals("Is occupied.") && !fail.equals("You can only move one turn in between.");
+    }
+
 }

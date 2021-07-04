@@ -49,6 +49,10 @@ public class ServerManager {
 
     }
 
+    public static void closeServer(){
+
+    }
+
 
 
 }

@@ -6,6 +6,7 @@ import server.util.PlayerInstruction;
 import util.GraphicBoard;
 import util.Screen;
 import validator.GameValidator;
+import validator.InputValidator;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,7 @@ public class HostController{
         char option;
         String target;
         String actual = " ";
+        boolean makeAMove = true;
         ArrayList<String> attacks = new ArrayList<>();
 
         while (j < 3 && alive2 > 0) {
@@ -75,33 +77,34 @@ public class HostController{
 
                 switch (option) {
                     case 'M' -> {
-                        actual = player1.getSquad().get(j).getPosition();
-                        fail = playerManager.position(target, j, player1);
+                        if (makeAMove) {
+                            actual = player1.getSquad().get(j).getPosition();
+                            fail = playerManager.position(target, j, player1);
+                        }else {
+                            fail = "You can only move one turn in between.";
+                        }
                     }
                     case 'A' -> {
-                        if (!attacks.contains(target)){
+                        if (InputValidator.attackInThisTurn(target, attacks)){
                             fail = playerManager.attack(target, player2);
-                            attacks.add(target);
                         }else{
                             fail = "You already attacked this locker this turn";
                         }
                     }
                 }
 
-                boolean success = !fail.equals("You already have a ninja in this position.") && !fail.equals("NO")
-                        && !fail.equals("You already attacked this locker this turn") && !fail.equals("Can only move one box away")
-                        && !fail.equals("Is occupied.");
 
-                if (success) {
+                if (InputValidator.goodMove(fail)) {
                     tryAgain = false;
 
                     if (option == 'M') {
                         graphic1.deletePosition(actual);
                         graphic1.setBoard(player1.getMyBoard().getBoard(), target);
-
+                        makeAMove = false;
                     } else {
                         graphic1.setEnemy(fail, target);
                         graphic2.setBoard(player2.getMyBoard().getBoard(), target);
+                        makeAMove = true;
                     }
                     j++;
                     Screen.showBoard(graphic1.convertToString());

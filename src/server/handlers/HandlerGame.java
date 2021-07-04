@@ -11,6 +11,7 @@ import server.util.PlayerInstruction;
 import server.util.ServerResponse;
 import util.GraphicBoard;
 import validator.GameValidator;
+import validator.InputValidator;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -42,12 +43,8 @@ public class HandlerGame implements HttpHandler {
             itsOk = playerManager.attack(instruction.getTarget(), enemy);
         }
 
-        boolean success = !itsOk.equals("You already have a ninja in this position.") && !itsOk.equals("NO")
-                && !itsOk.equals("You already attacked this locker this turn") && !itsOk.equals("Can only move one box away")
-                && !itsOk.equals("Is occupied.");
 
-
-        if (success){
+        if (InputValidator.goodMove(itsOk)){
             allGood = "OK";
 
             if (instruction.getAction() == 'M'){

@@ -115,15 +115,6 @@ public class Join extends BaseManager{
             ClientManager.get("/join", ServerResponse.class);
 
         }
-
-        while (!HandlerGuest.isSuccess()) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        HandlerGuest.setSuccess(false);
         try {
 
 

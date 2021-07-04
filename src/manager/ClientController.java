@@ -6,6 +6,7 @@ import server.util.HostSend;
 import server.util.PlayerInstruction;
 import server.util.ServerResponse;
 import util.Screen;
+import validator.InputValidator;
 
 import java.util.ArrayList;
 
@@ -68,8 +69,9 @@ public class ClientController extends BaseManager{
         char option;
         String coordinate;
         String board;
-        String fails;
-        boolean attackGood;
+        String fails = " ";
+        boolean allGood;
+        boolean makeAMove = true;
         ArrayList<String> attacks = new ArrayList<>();
 
         int i = 0;
@@ -80,13 +82,19 @@ public class ClientController extends BaseManager{
                 option = GameManager.setOption(false, commanderAlive);
                 coordinate = GameManager.setPosition(tryAgain, option);
                 if (option == 'A'){
-                    attackGood = !attacks.contains(coordinate);
+                    allGood = InputValidator.attackInThisTurn(coordinate, attacks);
+                    fails = "You already attacked this locker this turn";
                 }else {
-                    attackGood = true;
+
+                    if (makeAMove){
+                        allGood = true;
+                    }else{
+                        allGood = false;
+                        fails = "You can only move one turn in between.";
+                    }
                 }
 
-                if (attackGood) {
-                    attacks.add(coordinate);
+                if (allGood) {
                     playerInstruction.setAction(option);
                     playerInstruction.setTarget(coordinate);
                     playerInstruction.setNinja(i);
@@ -105,13 +113,14 @@ public class ClientController extends BaseManager{
                         i++;
                         Screen.showBoard(board);
                         Screen.successMovement(fails);
+                        makeAMove = option != 'M';
                     } else {
                         Screen.showBoard(board);//en el response recibe lo que esta mal
                         Screen.successMovement(fails);
                         tryAgain = true;
                     }
                 }else {
-                    System.out.println("You already attacked this locker this turn");
+                    System.out.println(fails);
                 }
             }else {
                 i++;

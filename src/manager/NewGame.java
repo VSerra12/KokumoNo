@@ -164,20 +164,16 @@ public class NewGame{
         }
         alive1 = GameValidator.continueGame(player1.getSquad());
         alive2 = GameValidator.continueGame(player2.getSquad());
+        send.setLife(life);
 
         if (alive2 <= 0){
             send.setCommanderAlive(false);
-            send.setLife(life);
         }else {
 
             send.setCommanderAlive(true);
-            send.setLife(life);
             send.setBoard(graphic2.convertToString());
             ClientManager.post("/join", send,ServerResponse.class);
         }
-
-        send.setBoard(graphic2.convertToString());
-        ClientManager.post("/join", send,ServerResponse.class);
 
         GameManager.endGame(alive1 > 0);
     }
