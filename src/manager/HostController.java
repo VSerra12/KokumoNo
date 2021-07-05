@@ -111,7 +111,6 @@ public class HostController{
                     Screen.successMovement(fail);
                 } else {
                     System.out.println(fail);
-                    tryAgain = true;
                 }
             }else {
                 j++;
